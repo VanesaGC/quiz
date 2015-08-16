@@ -35,19 +35,19 @@ router.get('/quizes/:quizId(\\d+)/answer', quizController.answer);
 router.get('/quizes', quizController.search);
 
 // GET /quizes/new
-router.get('/quizes/new', quizController.new);
+router.get('/quizes/new', sessionController.loginRequired, quizController.new);
 
 // POST /quizes/create
-router.post('/quizes/create', quizController.create);
+router.post('/quizes/create', sessionController.loginRequired, quizController.create);
 
 // GET /quizes/:id/create
-router.get('/quizes/:quizId(\\d+)/edit', quizController.edit);
+router.get('/quizes/:quizId(\\d+)/edit', sessionController.loginRequired, quizController.edit);
 
 // PUT /quizes/:id/update
-router.put('/quizes/:quizId(\\d+)', quizController.update);
+router.put('/quizes/:quizId(\\d+)', sessionController.loginRequired, quizController.update);
 
 // DELETE /quizes/:id
-router.delete('/quizes/:quizId(\\d+)', quizController.destroy);
+router.delete('/quizes/:quizId(\\d+)', sessionController.loginRequired, quizController.destroy);
 
 // Rutas comment
 router.get('/quizes/:quizId(\\d+)/comments/new', commentController.new);

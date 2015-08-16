@@ -2,7 +2,9 @@ var models = require('../models/models.js');
 
 // Autoload - Factoriza el código si la ruta incluye quizId
 exports.load = function(req, res, next, quizId){
-  models.Quiz.find(quizId).then(function(quiz){
+  models.Quiz.find({where: {id: Number (quizId)},
+                            include: [{model: models.Comment}]
+                   }).then(function(quiz){
                                 if(quiz){
                                     req.quiz = quiz;
                                     next();
@@ -22,6 +24,8 @@ exports.index = function(req, res){
 // GET /quizes/:id
 exports.show = function(req, res){
     models.Quiz.find(req.params.quizId).then(function(quiz){
+        console.log('Comentarios 1: ' + req.quiz.comments);
+        console.log('Comentarios 2: ' + quiz.comments);
         res.render('quizes/show.ejs', {quiz: req.quiz, errors: []});
     });
 }
@@ -87,8 +91,12 @@ exports.create = function(req, res){
     
     console.log("Entra en create");
     
+    
     // Creamos un objeto quiz
     var quiz = models.Quiz.build(req.body.quiz);
+    
+    console.log(quiz.tema + " Es el tema");
+    console.log(req.body.quiz.tema + " Es el tema");
     
     var err = quiz.validate();
     

@@ -41,6 +41,35 @@ app.use(function(req, res, next) {
     next();
 });
 
+// Autologout transcurridos 2 minutos de inactividad
+app.use(function(req, res, next){
+    if(req.session.user){
+        
+        var dosMinutos = 2 * 60 * 1000;
+        
+        var ahora = new Date().getTime();
+        var diferenciaTiempo;
+        
+        console.log(req.session.user.tiempoUltimaAccion + " Tiempo");
+        
+        
+        if(req.session.user.tiempoUltimaAccion === undefined){
+            req.session.user.tiempoUltimaAccion = ahora;
+        }
+            
+        diferenciaTiempo = ahora - req.session.user.tiempoUltimaAccion;
+        
+        if(diferenciaTiempo < dosMinutos){
+            req.session.user.tiempoUltimaAccion = ahora;
+        }else{
+            delete req.session.user;
+            res.redirect(req.session.redir.toString()); // redirección a path anterior a login
+        }
+    }
+    
+    next();
+});
+
 app.use('/', routes);
 
 // catch 404 and forward to error handler

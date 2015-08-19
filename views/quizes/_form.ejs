@@ -3,7 +3,7 @@
 <label for="resp" class="rem">Respuesta: </label>
 <input type="text" id="resp" name="quiz[respuesta]" value="<%= quiz.respuesta%>"/><br/>
 <label for="tema" class="rem">Tema: </label>
-<select id="tema" name="tema">
+<select id="tema" name="quiz[tema]">
     <option value="Otro">Otro</option>
     <option value="Humanidades" <% if(quiz.tema == "Humanidades"){%> selected <%}%>>Humanidades</option>
     <option value="Ocio" <% if(quiz.tema == "Ocio"){%> selected <%}%>>Ocio</option>
